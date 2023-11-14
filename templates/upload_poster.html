@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='upload_poster.css') }}">
+	<title>Upload the Poster!</title>
+</head>
+<body>
+	<div class='logout'> 
+		<a href="{{ url_for('index' )}}">Logout</a>
+	</div> 
+	<main>
+		<form method="post" enctype="multipart/form-data" action="{{ url_for('upload_poster', userID=userID) }}">
+			<div class="left">
+				<div>
+					<label for="title">Title:</label>
+					<input type="text" id="title" name="title" placeholder="Enter the title" value="{{request.form['title']}}">
+				</div>
+				<div>
+					<label for="group_email">Group member email(s):</label>
+					<input type="text" id="group_email" name="group_email" placeholder="Enter the group member email(s)" value="{{request.form['group_email']}}"> 
+				</div>
+				<div>
+					<label for="category">Category:</label>
+					<input type="text" id="category" name="category" placeholder="Enter the category" value="{{request.form['category']}}"> 
+				</div>
+				<div>
+					<label for="description">Description:</label>
+					<textarea id="description" name="description" placeholder="Enter the posters description">{{request.form['description']}}</textarea>
+				</div>
+			</div>
+			<div class="right">
+				<div class="image_loader">
+					<label for="upload_desc">Upload the poster's image</label>
+					<input type="file" name="file" id="loaded_image">
+					<img src="#" id="selected_image" alt="">
+				</div>
+				<button type="submit">Submit</button>
+			</div>
+		</form>
+		<div class="error_message">
+			{% for msg in get_flashed_messages() %}
+			<h4>{{ msg }}</h4>
+			{%endfor%}
+		</div>
+	</main>
+	<script>
+		loaded_image.onchange = e => {
+			const [file] = loaded_image.files
+			if (file) {
+				selected_image.src = URL.createObjectURL(file)
+			}
+		}</script>
+</body>
+</html>
